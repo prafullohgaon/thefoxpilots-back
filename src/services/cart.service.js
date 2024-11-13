@@ -172,9 +172,9 @@ async function addCartItem(userId, req) {
             cart.cartItems.push(createCartItem._id); // Push cartItem ID, not object
             await cart.save();
 
-            return "Item added to cart";
+            return createCartItem;
         } else {
-            return "Item already in cart";
+            return isPresent;
         }
     } catch (error) {
         throw new Error(error.message);

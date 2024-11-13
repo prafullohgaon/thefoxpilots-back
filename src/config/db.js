@@ -1,8 +1,16 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
 
-const mondbUrl="mongodb+srv://ronanpraful:YVAh1DDwgC03V0wT@cluster0.8qthz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+const connectDb = async () => {
+    try {
+        await mongoose.connect(process.env.MONGODB_URL, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log("Connected to MongoDB");
+    } catch (error) {
+        console.error("MongoDB connection error:", error);
+        process.exit(1); // Exit process with failure if unable to connect
+    }
+};
 
-const connectDb=()=>{
-    return mongoose.connect(mondbUrl)
-}
-module.exports={connectDb}
+module.exports = { connectDb };
