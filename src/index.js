@@ -3,6 +3,14 @@ const cors = require("cors")
 const app=express()
 app.use(express.json())
 app.use(cors())
+
+app.use(cors(
+    {
+        origin:["https://deploy-mern-1whq.vercel.app"],
+        methods:["POST", "GET"],
+        credentials: true
+    }
+));
 app.get("/",(req,res)=>{
     return res.status(200).send({message:" Welcome to Ecommerse api - node", status:true})
 })
