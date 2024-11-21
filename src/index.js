@@ -4,14 +4,17 @@ require("dotenv").config(); // Load environment variables
 const { connectDb } = require("./config/db"); // Import the DB connection function
 
 const app = express();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Set up routes and middleware
+// Root Route
 app.get("/", (req, res) => {
     return res.status(200).send({ message: "Welcome to Ecommerce API - Node", status: true });
 });
 
+// Routes
 const authRouters = require("./routes/auth.route.js");
 app.use("/auth", authRouters);
 
@@ -45,15 +48,11 @@ app.use("/api/ratings", ratingRouter);
 const paymentRouter = require("./routes/payment.routes.js");
 app.use("/api/payments", paymentRouter);
 
-// Connect to database and start server
-const PORT = process.env.PORT || 5454;
-connectDb().then(() => {
-    app.listen(PORT, () => {
-        console.log("Ecommerce API listening on PORT:", PORT);
-    });
-}).catch(error => {
-    console.error("Failed to connect to database:", error);
+// Database Connection
+connectDb().catch((error) => {
+    console.error("Failed to connect to database:", error.message);
     process.exit(1); // Exit if unable to connect to the database
 });
 
+// Export the app for Vercel
 module.exports = app;
